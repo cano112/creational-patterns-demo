@@ -89,6 +89,11 @@ public class House {
         }
 
         @Override
+        public Garage.NeedWalls withGarage() {
+            return Garage.builder(this);
+        }
+
+        @Override
         public CanBuild withGarage(Garage garage) {
             this.garage = garage;
             return this;
@@ -119,6 +124,8 @@ public class House {
         CanBuild withDoor(Door door);
 
         CanBuild withPathway(Pathway pathway);
+
+        Garage.NeedWalls withGarage();
 
         CanBuild withGarage(Garage garage);
 

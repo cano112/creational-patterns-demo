@@ -8,12 +8,21 @@ public class Main {
 
     public static void main(String[] args) {
 
-        // TODO: builder v.3
-
-        var garage = new Garage(
-                Set.of(new Wall(), new Wall(), new Wall(), new Wall()),
-                new Roof(),
-                new Gate());
+        // @formatter:off
+        House house = House.builder()
+                .withWalls(Set.of(new Wall(), new Wall(), new Wall(), new Wall()))
+                .withCeiling(new Ceiling())
+                .withRoof(new Roof())
+                .withDoor(new Door())
+                .withPathway(new Pathway())
+                .withWindows(Set.of(new Window(), new Window()))
+                .withGarage()
+                    .withWalls(Set.of(new Wall(), new Wall(), new Wall(), new Wall()))
+                    .withRoof(new Roof())
+                    .withGate(new Gate())
+                    .build()
+                .build();
+        // @formatter:on
 
     }
 
