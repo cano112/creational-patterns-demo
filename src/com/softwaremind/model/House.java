@@ -7,13 +7,9 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-public class House {
-
-    private final Set<Wall> walls;
+public class House extends Building {
 
     private final Ceiling ceiling;
-
-    private final Roof roof;
 
     private final Set<Window> windows;
 
@@ -25,17 +21,33 @@ public class House {
 
     private House(Set<Wall> walls, Ceiling ceiling, Roof roof, Set<Window> windows, Door door, Pathway pathway,
                   Garage garage) {
-        this.walls = walls;
+        super(walls, roof);
         this.ceiling = ceiling;
-        this.roof = roof;
         this.windows = windows;
         this.door = door;
         this.pathway = pathway;
         this.garage = garage;
     }
 
+    private House(House house) {
+        super(house);
+        this.ceiling = house.ceiling.clone();
+        this.door = house.door.clone();
+        this.pathway = house.pathway.clone();
+        this.garage = house.garage.clone();
+        this.windows = house.windows
+                .stream()
+                .map(Window::clone)
+                .collect(Collectors.toSet());
+    }
+
     public static NeedWalls builder() {
         return new Builder();
+    }
+
+    @Override
+    public House clone() {
+        return new House(this);
     }
 
     public static class Builder implements NeedWalls, NeedRoof, NeedCeiling, CanBuild {

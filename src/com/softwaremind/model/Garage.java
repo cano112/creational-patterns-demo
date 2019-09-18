@@ -5,23 +5,27 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-public class Garage {
-
-    private final Set<Wall> walls;
-
-    private final Roof roof;
+public class Garage extends Building {
 
     private final Gate gate;
 
-
     private Garage(Set<Wall> walls, Roof roof, Gate gate) {
-        this.walls = walls;
-        this.roof = roof;
+        super(walls, roof);
         this.gate = gate;
+    }
+
+    private Garage(Garage garage) {
+        super(garage);
+        this.gate = garage.gate.clone();
     }
 
     static NeedWalls builder(House.Builder houseBuilder) {
         return new Builder(houseBuilder);
+    }
+
+    @Override
+    public Garage clone() {
+        return new Garage(this);
     }
 
     public static class Builder implements NeedWalls, NeedRoof, CanBuild {
