@@ -29,17 +29,17 @@ public class House {
         this.garage = garage;
     }
 
-    public static Builder builder() {
-        return new Builder();
+    public static Builder builder(Set<Wall> walls, Ceiling ceiling, Roof roof) {
+        return new Builder(walls, ceiling, roof);
     }
 
     public static class Builder {
 
-        private Set<Wall> walls;
+        private final Set<Wall> walls;
 
-        private Ceiling ceiling;
+        private final Ceiling ceiling;
 
-        private Roof roof;
+        private final Roof roof;
 
         private Set<Window> windows;
 
@@ -49,23 +49,10 @@ public class House {
 
         private Garage garage;
 
-        private Builder() {
-
-        }
-
-        public Builder withWalls(Set<Wall> walls) {
+        private Builder(Set<Wall> walls, Ceiling ceiling, Roof roof) {
             this.walls = walls;
-            return this;
-        }
-
-        public Builder withCeiling(Ceiling ceiling) {
             this.ceiling = ceiling;
-            return this;
-        }
-
-        public Builder withRoof(Roof roof) {
             this.roof = roof;
-            return this;
         }
 
         public Builder withWindows(Set<Window> windows) {

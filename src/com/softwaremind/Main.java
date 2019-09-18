@@ -13,15 +13,16 @@ var garage = new Garage(
         new Roof(),
         new Gate());
 
-var house = House.builder()
-        .withWalls(Set.of(new Wall(), new Wall(), new Wall(), new Wall()))
-        .withCeiling(new Ceiling())
-        .withRoof(new Roof())
+var walls = Set.of(new Wall(), new Wall(), new Wall(), new Wall());
+
+var house = House.builder(walls, new Ceiling(), new Roof())
         .withWindows(Set.of(new Window(), new Window()))
         .withDoor(new Door())
-        .withPathway(new Pathway())
         .withGarage(garage)
         .build();
+
+
+
 
     }
 }
