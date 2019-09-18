@@ -9,19 +9,23 @@ public class Main {
     public static void main(String[] args) {
 
         // @formatter:off
+
+
         House house = House.builder()
-                .withWalls(Set.of(new Wall(), new Wall(), new Wall(), new Wall()))
+                .withFourWalls(Wall::new)
                 .withCeiling(new Ceiling())
                 .withRoof(new Roof())
                 .withDoor(new Door())
                 .withPathway(new Pathway())
-                .withWindows(Set.of(new Window(), new Window()))
+                .withTwoWindows(Window::new)
                 .withGarage()
-                    .withWalls(Set.of(new Wall(), new Wall(), new Wall(), new Wall()))
+                    .withFourWalls(Wall::new)
                     .withRoof(new Roof())
                     .withGate(new Gate())
                     .build()
                 .build();
+
+
         // @formatter:on
 
     }

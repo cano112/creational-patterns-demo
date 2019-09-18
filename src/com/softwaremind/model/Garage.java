@@ -1,6 +1,9 @@
 package com.softwaremind.model;
 
 import java.util.Set;
+import java.util.function.Supplier;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class Garage {
 
@@ -42,6 +45,14 @@ public class Garage {
         }
 
         @Override
+        public NeedRoof withFourWalls(Supplier<Wall> wallSupplier) {
+            this.walls = IntStream.range(0, 4)
+                    .mapToObj(index -> wallSupplier.get())
+                    .collect(Collectors.toSet());
+            return this;
+        }
+
+        @Override
         public CanBuild withRoof(Roof roof) {
             this.roof = roof;
             return this;
@@ -62,6 +73,7 @@ public class Garage {
 
     public interface NeedWalls {
         NeedRoof withWalls(Set<Wall> walls);
+        NeedRoof withFourWalls(Supplier<Wall> wallSupplier);
     }
 
     public interface NeedRoof {

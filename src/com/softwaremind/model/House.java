@@ -2,6 +2,10 @@ package com.softwaremind.model;
 
 import java.nio.file.Path;
 import java.util.Set;
+import java.util.function.Supplier;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 public class House {
 
@@ -59,6 +63,14 @@ public class House {
         }
 
         @Override
+        public NeedCeiling withFourWalls(Supplier<Wall> wallSupplier) {
+            this.walls = IntStream.range(0, 4)
+                    .mapToObj(index -> wallSupplier.get())
+                    .collect(Collectors.toSet());
+            return this;
+        }
+
+        @Override
         public NeedRoof withCeiling(Ceiling ceiling) {
             this.ceiling = ceiling;
             return this;
@@ -73,6 +85,14 @@ public class House {
         @Override
         public CanBuild withWindows(Set<Window> windows) {
             this.windows = windows;
+            return this;
+        }
+
+        @Override
+        public CanBuild withTwoWindows(Supplier<Window> windowSupplier) {
+            this.windows = IntStream.range(0, 2)
+                    .mapToObj(index -> windowSupplier.get())
+                    .collect(Collectors.toSet());
             return this;
         }
 
@@ -107,6 +127,7 @@ public class House {
 
     public interface NeedWalls {
         NeedCeiling withWalls(Set<Wall> walls);
+        NeedCeiling withFourWalls(Supplier<Wall> wallSupplier);
     }
 
     public interface NeedCeiling {
@@ -120,6 +141,8 @@ public class House {
     public interface CanBuild {
 
         CanBuild withWindows(Set<Window> windows);
+
+        CanBuild withTwoWindows(Supplier<Window> windowSupplier);
 
         CanBuild withDoor(Door door);
 
