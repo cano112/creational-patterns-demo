@@ -1,5 +1,6 @@
 package com.softwaremind.model;
 
+import java.nio.file.Path;
 import java.util.Set;
 
 public class House {
@@ -29,17 +30,17 @@ public class House {
         this.garage = garage;
     }
 
-    public static Builder builder(Set<Wall> walls, Ceiling ceiling, Roof roof) {
-        return new Builder(walls, ceiling, roof);
+    public static NeedWalls builder() {
+        return new Builder();
     }
 
-    public static class Builder {
+    public static class Builder implements NeedWalls, NeedRoof, NeedCeiling, CanBuild {
 
-        private final Set<Wall> walls;
+        private Set<Wall> walls;
 
-        private final Ceiling ceiling;
+        private Ceiling ceiling;
 
-        private final Roof roof;
+        private Roof roof;
 
         private Set<Window> windows;
 
@@ -49,34 +50,78 @@ public class House {
 
         private Garage garage;
 
-        private Builder(Set<Wall> walls, Ceiling ceiling, Roof roof) {
+        private Builder() { }
+
+        @Override
+        public NeedCeiling withWalls(Set<Wall> walls) {
             this.walls = walls;
-            this.ceiling = ceiling;
-            this.roof = roof;
+            return this;
         }
 
-        public Builder withWindows(Set<Window> windows) {
+        @Override
+        public NeedRoof withCeiling(Ceiling ceiling) {
+            this.ceiling = ceiling;
+            return this;
+        }
+
+        @Override
+        public CanBuild withRoof(Roof roof) {
+            this.roof = roof;
+            return this;
+        }
+
+        @Override
+        public CanBuild withWindows(Set<Window> windows) {
             this.windows = windows;
             return this;
         }
 
-        public Builder withDoor(Door door) {
+        @Override
+        public CanBuild withDoor(Door door) {
             this.door = door;
             return this;
         }
 
-        public Builder withPathway(Pathway pathway) {
+        @Override
+        public CanBuild withPathway(Pathway pathway) {
             this.pathway = pathway;
             return this;
         }
 
-        public Builder withGarage(Garage garage) {
+        @Override
+        public CanBuild withGarage(Garage garage) {
             this.garage = garage;
             return this;
         }
 
+        @Override
         public House build() {
             return new House(walls, ceiling, roof, windows, door, pathway, garage);
         }
+    }
+
+    public interface NeedWalls {
+        NeedCeiling withWalls(Set<Wall> walls);
+    }
+
+    public interface NeedCeiling {
+        NeedRoof withCeiling(Ceiling ceiling);
+    }
+
+    public interface NeedRoof {
+        CanBuild withRoof(Roof roof);
+    }
+
+    public interface CanBuild {
+
+        CanBuild withWindows(Set<Window> windows);
+
+        CanBuild withDoor(Door door);
+
+        CanBuild withPathway(Pathway pathway);
+
+        CanBuild withGarage(Garage garage);
+
+        House build();
     }
 }
